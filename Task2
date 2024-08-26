@@ -1,0 +1,151 @@
+/*STUDENT MANAGEMENT SYSTEM*/
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+#define NAME_LENGTH 50
+
+typedef struct {
+    int id;
+    char name[NAME_LENGTH];
+    float grades[3];  // Assume 3 subjects
+    float average;
+} Student;
+
+Student students[MAX_STUDENTS];
+int studentCount = 0;
+
+void addStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        printf("Student limit reached.\n");
+        return;
+    }
+    
+    Student newStudent;
+    printf("Enter student ID: ");
+    scanf("%d", &newStudent.id);
+    printf("Enter student name: ");
+    scanf(" %[^\n]%*c", newStudent.name);  // Read string with spaces
+    printf("Enter 3 grades: ");
+    int i;
+    for ( i = 0; i < 3; i++) {
+        scanf("%f", &newStudent.grades[i]);
+    }
+    newStudent.average = (newStudent.grades[0] + newStudent.grades[1] + newStudent.grades[2]) / 3.0;
+    
+    students[studentCount++] = newStudent;
+    printf("Student added successfully.\n");
+}
+
+void editStudent() {
+    int id;
+    printf("Enter student ID to edit: ");
+    scanf("%d", &id);
+    int i;
+    for ( i = 0; i < studentCount; i++) {
+        if (students[i].id == id) {
+            printf("Editing student %d\n", id);
+            printf("Enter new name: ");
+            scanf(" %[^\n]%*c", students[i].name);
+            printf("Enter new 3 grades: ");
+            int j;
+            for ( j = 0; j < 3; j++) {
+                scanf("%f", &students[i].grades[j]);
+            }
+            students[i].average = (students[i].grades[0] + students[i].grades[1] + students[i].grades[2]) / 3.0;
+            printf("Student updated successfully.\n");
+            return;
+        }
+    }
+    printf("Student with ID %d not found.\n", id);
+}
+
+void deleteStudent() {
+    int id;
+    printf("Enter student ID to delete: ");
+    scanf("%d", &id);
+    int i;
+    for ( i = 0; i < studentCount; i++) {
+        if (students[i].id == id) {
+        	int j;
+            for (j = i; j < studentCount - 1; j++) {
+                students[j] = students[j + 1];
+            }
+            studentCount--;
+            printf("Student with ID %d deleted successfully.\n", id);
+            return;
+        }
+    }
+    printf("Student with ID %d not found.\n", id);
+}
+
+void viewStudent() {
+    int id;
+    printf("Enter student ID to view: ");
+    scanf("%d", &id);
+    int i;
+    for (i = 0; i < studentCount; i++) {
+        if (students[i].id == id) {
+            printf("Student ID: %d\n", students[i].id);
+            printf("Name: %s\n", students[i].name);
+            printf("Grades: %.2f, %.2f, %.2f\n", students[i].grades[0], students[i].grades[1], students[i].grades[2]);
+            printf("Average Grade: %.2f\n", students[i].average);
+            return;
+        }
+    }
+    printf("Student with ID %d not found.\n", id);
+}
+
+void listStudents() {
+    if (studentCount == 0) {
+        printf("No students to display.\n");
+        return;
+    }
+    int i;
+    for (i = 0; i < studentCount; i++) {
+        printf("Student ID: %d\n", students[i].id);
+        printf("Name: %s\n", students[i].name);
+        printf("Grades: %.2f, %.2f, %.2f\n", students[i].grades[0], students[i].grades[1], students[i].grades[2]);
+        printf("Average Grade: %.2f\n\n", students[i].average);
+    }
+}
+
+int main() {
+    int choice;
+    
+    
+    while (1) {
+        printf("Student Management System\n");
+        printf("1. Add Student\n");
+        printf("2. Edit Student\n");
+        printf("3. Delete Student\n");
+        printf("4. View Student\n");
+        printf("5. List All Students\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                editStudent();
+                break;
+            case 3:
+                deleteStudent();
+                break;
+            case 4:
+                viewStudent();
+                break;
+            case 5:
+                listStudents();
+                break;
+            case 6:
+                return 0;
+            default:
+                printf("Invalid choice. Please enter a number between 1 and 6.\n");
+        }
+    }
+}
