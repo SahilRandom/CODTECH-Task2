@@ -1,7 +1,7 @@
 Name:Sahil Ningonda Sankeshwari
 Company:CODTECH IT SOLUTIONS
 ID:CT08DS7054
-Domain:Data Analytics
+Domain: C Language Tasks
 Duration: AUGUST 17th, 2024 to SEPTEMBER 17th, 2024.
 Mentor:Santhosh
 
